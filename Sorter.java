@@ -58,17 +58,28 @@ public class Sorter
     {
        int middle = array.length / 2;
        Comparable[] left = new Comparable[middle];
-       Comparable[] right = new Comparable[middle + 1];
+       Comparable[] right;
+       if(array.length % 2 == 0)
+       {
+         right = new Comparable[middle];
+       }
+       else
+       {
+    	 right = new Comparable[middle + 1]; //This one's always going to be the bigger one when integer division takes over.
+       }
+      
        for(int index = 0; index < middle; index++)
        {
          left[index] = array[index];
        }
-       for(int index = 0; index + middle <= array.length; index++)
+       for(int index = 0; index + middle < array.length; index++)
        {
          right[index] = array[index + middle];
        }
+       System.out.println("Sorting Subsets");
        left = mergeSort(left);
        right = mergeSort(right);
+       System.out.println("Merging Sorted Sets");
        return merge(left,right);
     }
   }
@@ -81,40 +92,45 @@ public class Sorter
     int rightIndex = 0;
     while(leftIndex < left.length && rightIndex < right.length)
     {
-      if(left[leftIndex].compareTo(right[rightIndex]) <= 0)
+      if(left[leftIndex].compareTo(right[rightIndex]) < 0)
       {
         result[resultIndex] = left[leftIndex];
         leftIndex++;
       }
       else
       {
-        result[resultIndex] = right[resultIndex];
+        result[resultIndex] = right[rightIndex];
         rightIndex++;
       }
       resultIndex++;
     }
-    
-    Comparable remainder[];
-    int remainderIndex = 0;
-
-    if(leftIndex >= left.length)
+    if(left.length == 0 && right.length == 0)
     {
-      remainder = right;
-      remainderIndex = rightIndex;
+      return result;
     }
     else
     {
-      remainder = left;
-      remainderIndex = leftIndex;
+      Comparable remainder[];
+      int remainderIndex = 0;
+
+      if(leftIndex >= left.length)
+      {
+        remainder = right;
+        remainderIndex = rightIndex;
+      }
+      else
+      {
+        remainder = left;
+        remainderIndex = leftIndex;
+      }
+      //Copy the rest of the array
+      for(int index = remainderIndex; index < remainder.length; index++)
+      { 
+        result[resultIndex] = remainder[index];
+        resultIndex++;
+      }
+        return result;
     }
-    //Copy the rest of the array
-    for(int index = remainderIndex; index < remainder.length; index++)
-    { 
-      result[resultIndex] = remainder[remainderIndex];
-      resultIndex++;
-    }
-    
-    return result;
   }
  /**
   * Sorts an array by insertionSort 
