@@ -102,7 +102,22 @@ public class SorterTester
     System.out.println("Testing Failing Insertion Sorted Array");
     testSort(Sorter.insertionSort(failArray));
   }
- 
+  public static void  testMergeSort()
+  {
+    Integer[] passArray = {1,2,3,4,5,6,7};
+    Integer[] failArray = {5,9,7,2,6,8,4};
+    System.out.println("Testing Failing Insertion  Sorted Unsorted Array");
+    testSort(failArray);
+    System.out.println("Testing Passing Insertion Sorted Unsorted Array");
+    testSort(passArray);
+    System.out.println("Testing Passing Insertion Sorted Array");
+    assert Sorter.mergeSort(passArray).equals(passArray);
+    testSort(Sorter.mergeSort(passArray));
+    assert Sorter.mergeSort(failArray).length == failArray.length;
+
+    System.out.println("Testing Failing Insertion Sorted Array");
+    testSort(Sorter.mergeSort(failArray));
+  }
   public static void testSort(Comparable[] array)
   {
     boolean flag = false; 
@@ -115,6 +130,7 @@ public class SorterTester
       }
       System.out.println(array[i].toString() +',');
     }
+
     if(flag)
     {
         System.out.println("Sort Test failed");
@@ -159,5 +175,6 @@ public class SorterTester
 
     testSelectionSort();
     testInsertionSort();
+    testMergeSort();
   }
 }

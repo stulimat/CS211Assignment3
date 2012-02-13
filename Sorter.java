@@ -57,15 +57,15 @@ public class Sorter
     else 
     {
        int middle = array.length / 2;
-       Comparable[] left = new Comparable[middle-1];
-       Comparable[] right = new Comparable[middle];
+       Comparable[] left = new Comparable[middle];
+       Comparable[] right = new Comparable[middle + 1];
        for(int index = 0; index < middle; index++)
        {
          left[index] = array[index];
        }
-       for(int index = middle; index < array.length; index++)
+       for(int index = 0; index + middle <= array.length; index++)
        {
-         right[index] = array[index];
+         right[index] = array[index + middle];
        }
        left = mergeSort(left);
        right = mergeSort(right);
