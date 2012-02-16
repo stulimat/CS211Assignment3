@@ -17,8 +17,11 @@ import java.awt.Dimension;
 
 public class WordSandwich extends JApplet implements ActionListener 
 { 
-  private JPanel guessPanel = new JPanel(new GridLayout(3,1));
+  private JPanel guessPanel = new JPanel(new GridLayout(4,1));
   private JPanel guessTextEntryPanel = new JPanel(new FlowLayout());
+  private JPanel hintPanel = new JPanel(new FlowLayout());
+  private JLabel hintWord = new JLabel("Want a hint?");
+  private JButton hintButton = new JButton("Give me a hint!");
   private JPanel mainPanel = new JPanel(new FlowLayout());
   private JTextField guessText = new JTextField(30);
   private JLabel topGuess = new JLabel("Upper Guess");
@@ -29,12 +32,15 @@ public class WordSandwich extends JApplet implements ActionListener
   private String currentWord;
   private String upperWord;
   private String lowerWord;
+
   
   ArrayList<String> dictionary = new ArrayList<String>();
   ArrayList<String> guessList = new ArrayList<String>();
   public void init()
   {
-	 guessButton.addActionListener(this);
+	 this.guessButton.addActionListener(this);
+	 this.hintButton.addActionListener(this);
+	 
    this.mainPanel.setPreferredSize(new Dimension(640,400));
 	 this.topGuess.setBorder(BorderFactory.createLineBorder(Color.black));
 	 this.bottomGuess.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -42,10 +48,12 @@ public class WordSandwich extends JApplet implements ActionListener
 	 
 	 this.guessTextEntryPanel.add(guessText);
 	 this.guessTextEntryPanel.add(guessButton);
-	 
+	 this.hintPanel.add(hintWord);
+	 this.hintPanel.add(hintButton);
 	 this.guessPanel.add(topGuess);
 	 this.guessPanel.add(guessTextEntryPanel);
 	 this.guessPanel.add(bottomGuess);
+	 this.guessPanel.add(hintPanel);
 	 this.mainPanel.add(guessPanel);
 	 
 	 this.wordPanel.setPreferredSize(new Dimension(160,400));
@@ -102,6 +110,10 @@ public class WordSandwich extends JApplet implements ActionListener
       compareWord(guessText.getText());
       guessText.setText("");
     }
+    else if(e.getSource().equals(hintButton))
+    {
+      hintWord.setText(getHint());
+    }
   }
   
   public void compareWord(String word)
@@ -136,5 +148,26 @@ public class WordSandwich extends JApplet implements ActionListener
     }
     words += "</html>";
     this.guesses.setText(words);
+  }
+  
+  private String getHint()
+  {
+    String guess;
+    if(topGuess.getText() != "Upper Guess")
+    {
+      guess = topGuess.getText();
+      return Searcher.binarySearchHint(this.currentWord, guess , dictionary);
+    }
+    else if(topGuess.getText() != "Lower Guess")
+    {
+      guess = topGuess.getText();
+      return Searcher.binarySearchHint(this.currentWord, guess , dictionary);
+    }
+    else
+    {
+      return "Guess a word first!";
+    }
+    
+    
   }
 }
