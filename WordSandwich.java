@@ -61,7 +61,7 @@ public class WordSandwich extends JApplet implements ActionListener
 	 this.wordPanel.add(guesses);
 	 this.mainPanel.add(wordPanel);
 	 getContentPane().add(mainPanel);
-	 loadDictionary("dictionary.dat");
+	 loadDictionary("./dictionary.dat");
 	 pickWord();
   }
   
